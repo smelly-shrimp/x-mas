@@ -29,7 +29,7 @@ int is(float max) {
 	return chance < max;
 }
 
-int main() {
+int main(int argc, char** argv) {
 	srand(time(NULL));
 
 	int len = strlen(TREE);
@@ -76,7 +76,7 @@ int main() {
 		}
 	}
 
-	printf("%s\n", TREE);
+	printf("\033[1;32m%s\n\033[0m", TREE);
 
 	int colors[] = { 37, 31, 32, 33 };
 	for (int i = 0; ; i = (i + 1) % 4) {
@@ -90,10 +90,16 @@ int main() {
 			j++;
 		}
 
+		if (argc >= 2) {
+			if (strcmp(argv[1], "--frame") == 0) {
+				printf("\033[%d;%dH", 10, 0);
+				return 0;
+			}
+		}
+
 		fflush(stdout);
 		usleep(500000);
 	}
-	// printf("\033[%d;%dH", 10, 0);
 
 	return 0;
 }
