@@ -9,7 +9,9 @@ typedef struct {
 	int col;
 } Pos;
 
+const char BALL = '0';
 const int BALL_LIMIT = 3;
+const float BALL_CHANCE = 0.3;
 const int WIDTH = 16;
 char TREE[] =
 	R"(       *       )" "\n" 
@@ -22,8 +24,9 @@ char TREE[] =
 	R"(   /___ ___\   )" "\n"
 	R"(______|||______)" "\n";
 
-int is(int max) {
-	return rand() % max >= max - 1;
+int is(float max) {
+	float chance = (float)rand() / (float)RAND_MAX;
+	return chance < max;
 }
 
 int main() {
@@ -59,7 +62,7 @@ int main() {
 				break;
 			}
 
-			if (is(4)) {
+			if (is(BALL_CHANCE)) {
 				Pos pos = {
 					.row = i,
 					.col = ci
@@ -77,17 +80,17 @@ int main() {
 
 	int colors[] = { 37, 31, 32, 33 };
 	for (int i = 0; ; i = (i + 1) % 4) {
-		fflush(stdout);
-
 		int j = 0;
 		while (j < ball_i) {
-			printf("\033[%d;%dH\033[1;%dm*\033[0m",
+			printf("\033[%d;%dH\033[1;%dm%c\033[0m",
 		  		balls[j].row + 1,
 		  		balls[j].col + 1,
-		  		colors[i]);
+		  		colors[i],
+		  		BALL);
 			j++;
 		}
 
+		fflush(stdout);
 		usleep(500000);
 	}
 	// printf("\033[%d;%dH", 10, 0);
