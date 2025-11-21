@@ -9,7 +9,7 @@ typedef struct {
 	int col;
 } Pos;
 
-const char BALL = '0';
+const char BALL = '*';
 const int BALL_LIMIT = 3;
 const float BALL_CHANCE = 0.3;
 const int WIDTH = 16;
@@ -32,11 +32,11 @@ int is(float max) {
 int main(int argc, char** argv) {
 	srand(time(NULL));
 
-	int len = strlen(TREE);
+	int len = strlen(TREE) / WIDTH;
 	Pos balls[len * BALL_LIMIT];
 	int ball_i = 0;
 
-	for (int i = 0; i < len / WIDTH; i++) {
+	for (int i = 0; i < len; i++) {
 		int ci = -1;
 		char c = '\0';
 		int rand_cnt = 0;
